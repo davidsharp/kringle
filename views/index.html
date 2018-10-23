@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SendGrid Quick Start</title>
+    <meta name="description" content="SendGrid Quick Start for Node.js on Glitch">
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/style.css">
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script type="text/javascript" src="/cool-file.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>
+        Kringle 🎅🏻
+      </h1>
+    </header>
+
+    <main>
+      <div id="app"></div>
+    </main>
+
+    <script src="https://button.glitch.me/button.js" data-style="glitch"></script>
+    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
+    <script>
+      document.onreadystatechange = () => {
+        if (document.readyState === 'complete') {
+          const MOUNT_NODE = document.getElementById('app');
+          ReactDOM.render(
+            my_app,
+            MOUNT_NODE
+          );
+        }
+      }
+    </script>
+  </body>
+</html>

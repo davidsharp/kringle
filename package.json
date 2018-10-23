@@ -1,0 +1,27 @@
+{
+  "name": "kringle",
+  "version": "0.0.1",
+  "description": "secret santa tool",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "@sendgrid/mail": "*",
+    "express-jsx": "*"
+  },
+  "engines": {
+    "node": "8.12.x"
+  },
+  "repository": {
+    "url": "https://github.com/davidsharp/kringle"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "sendgrid",
+    "express"
+  ]
+}
