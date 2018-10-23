@@ -6,7 +6,8 @@ class App extends React.Component {
       value: 'hello world',
       param1: '2',
       param2: '-1',
-      
+      hasGroups: true,
+      participants: ['test']
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -15,6 +16,15 @@ class App extends React.Component {
   handleChange(param) {
     return (event)=>this.setState({[param]: param=='value'||event.target.value.length>0?event.target.value:undefined});
   }
+  
+  handleParticpantChange(index) {
+    return (param)=>(event)=>{
+      let p = this.state.participants
+      p[index]={...p[index],[param]: event.target.value.length>0?event.target.value:undefined}
+      this.setState({participants:p})
+      console.log(p)
+    }
+  }
 
   render() {
     //const {value, param1, param2} = this.state
@@ -22,43 +32,28 @@ class App extends React.Component {
     const param1 = this.state.param1
     const param2 = this.state.param2
     return (
-      React.createElement("form", {onSubmit: this.handleSubmit}, 
-        React.createElement("label", null, 
-          "String:", 
-          React.createElement("input", {type: "text", value: value, onChange: this.handleChange('value')})
-        ), 
-        React.createElement("label", null, 
-          "Param 1:", 
-          React.createElement("input", {type: "text", value: param1, onChange: this.handleChange('param1')})
-        ), 
-        React.createElement("label", null, 
-          "Param 2:", 
-          React.createElement("input", {type: "text", value: param2, onChange: this.handleChange('param2')})
-        ), 
-        React.createElement("br", null), 
-        React.createElement("h3", null, `'${value}'.slice(${param1},${param2})`), 
-        React.createElement(StringTable, {str: value, sub: value.slice(param1,param2), params: [param1,param2]}), 
-        React.createElement("h3", null, `'${value}'.substr(${param1},${param2})`), 
-        React.createElement(StringTable, {str: value, sub: value.substr(param1,param2), params: [param1,param2]}), 
-        React.createElement("h3", null, `'${value}'.substring(${param1},${param2})`), 
-        React.createElement(StringTable, {str: value, sub: value.substring(param1,param2), params: [param1,param2]})
+      React.createElement("div", null, 
+        this.state.participants.map((c,i)=>(React.createElement(Participant, {key: i, index: i, data: c, hasGroups: this.state.hasGroups}))), 
+        React.createElement("button", {onClick: _=>this.setState({participants:[].concat(this.state.participants,[''])})})
       )
     );
   }
 }
-
-const StringTable = ({str, sub, params}) => (React.createElement("table", null, 
-    React.createElement("thead", null, 
-        React.createElement("tr", null, 
-          str.split('').map((c,i)=>(React.createElement("th", null,  i )))
+//onChange={handleChange(index)('value')}
+const Participant = ({index,/*handleChange,*/ data, hasGroups}) => (React.createElement("form", {className: "participant"}, 
+        React.createElement("label", null, 
+          "Name:", 
+          React.createElement("input", {type: "text", value: index})
+        ), 
+        React.createElement("label", null, 
+          "Email address:", 
+          React.createElement("input", {type: "email", value: index})
+        ), 
+        hasGroups&&React.createElement("label", null, 
+          "Group:", 
+          React.createElement("input", {type: "text", value: index})
         )
-    ), 
-    React.createElement("tbody", null, 
-        React.createElement("tr", null, 
-          str.split('').map((c,i)=>(React.createElement("th", {style: {color:i>=str.indexOf(sub)&&i<(str.indexOf(sub)+sub.length)?'black':'gray'}},  c )))
-        )
-    )
-  ))
+      ))
 
       
 const my_app = React.createElement(App, null)

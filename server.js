@@ -25,6 +25,9 @@ app.get("/", function (request, response) {
   {name: 'sam', email: 'sam@bar.com', group:'sam'},
 ])
   k.run();//k.run();k.run()
+  k.list.forEach((c,i)=>(
+        console.log(c.email,`Hi, ${c.name}! The person you need to buy for is ${k.shuffledList[i].name}! from Santa x`)
+      ))
   response.sendFile(__dirname + '/views/index.html');
 });
 

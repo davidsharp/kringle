@@ -5,7 +5,8 @@ class App extends React.Component {
       value: 'hello world',
       param1: '2',
       param2: '-1',
-      
+      hasGroups: true,
+      participants: ['test']
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -14,6 +15,15 @@ class App extends React.Component {
   handleChange(param) {
     return (event)=>this.setState({[param]: param=='value'||event.target.value.length>0?event.target.value:undefined});
   }
+  
+  handleParticpantChange(index) {
+    return (param)=>(event)=>{
+      let p = this.state.participants
+      p[index]={...p[index],[param]: event.target.value.length>0?event.target.value:undefined}
+      this.setState({participants:p})
+      console.log(p)
+    }
+  }
 
   render() {
     //const {value, param1, param2} = this.state
@@ -21,43 +31,28 @@ class App extends React.Component {
     const param1 = this.state.param1
     const param2 = this.state.param2
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          String:
-          <input type="text" value={value} onChange={this.handleChange('value')} />
-        </label>
-        <label>
-          Param 1:
-          <input type="text" value={param1} onChange={this.handleChange('param1')} />
-        </label>
-        <label>
-          Param 2:
-          <input type="text" value={param2} onChange={this.handleChange('param2')} />
-        </label>
-        <br/>
-        <h3>{`'${value}'.slice(${param1},${param2})`}</h3>
-        <StringTable str={value} sub={value.slice(param1,param2)} params={[param1,param2]} />
-        <h3>{`'${value}'.substr(${param1},${param2})`}</h3>
-        <StringTable str={value} sub={value.substr(param1,param2)} params={[param1,param2]} />
-        <h3>{`'${value}'.substring(${param1},${param2})`}</h3>
-        <StringTable str={value} sub={value.substring(param1,param2)} params={[param1,param2]} />
-      </form>
+      <div>
+        {this.state.participants.map((c,i)=>(<Participant key={i} index={i} data={c} hasGroups={this.state.hasGroups}/>))}
+        <button onClick={_=>this.setState({participants:[].concat(this.state.participants,[''])})}></button>
+      </div>
     );
   }
 }
-
-const StringTable = ({str, sub, params}) => (<table>
-    <thead>
-        <tr>
-          {str.split('').map((c,i)=>(<th>{ i }</th>))}
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-          {str.split('').map((c,i)=>(<th style={{color:i>=str.indexOf(sub)&&i<(str.indexOf(sub)+sub.length)?'black':'gray'}}>{ c }</th>))}
-        </tr>
-    </tbody>
-  </table>)
+//onChange={handleChange(index)('value')}
+const Participant = ({index,/*handleChange,*/ data, hasGroups}) => (<form className="participant">
+        <label>
+          Name:
+          <input type="text" value={index}  />
+        </label>
+        <label>
+          Email address:
+          <input type="email" value={index}  />
+        </label>
+        {hasGroups&&<label>
+          Group:
+          <input type="text" value={index}  />
+        </label>}
+      </form>)
 
       
 const my_app = <App/>
